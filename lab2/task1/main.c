@@ -1,37 +1,45 @@
-#include <stdio.h> 
-#include <stdlib.h> 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-
 
 void error(const char* message);
 
-
-
-int main(int argc, char **argv)
+int main(void)
 {
-  if(argc < 3) error("there are no arguments in stdin stream.\n");
+    char buffer[256];
+    int pos_only_flag = 0;
 
-  int pos_only_flag = ((strcmp("--positive-only", argv[1]) == 0) ? 1 : 0);
-  
-  const char *res_message = ((pos_only_flag) ? "only positive numbers" : "all numbers");
-  printf("%s: ", res_message);
-  for(int i = 1 + pos_only_flag;i< argc; i++)
-  {
-    if(pos_only_flag && *argv[i] == '-') continue;
-    
-    printf("%s ", argv[i]);
-  }
-  printf("\n"); 
+    if (scanf("%255s", buffer) != 1) 
+    {
+        error("there are no arguments in stdin stream.\n");
+    }
 
+    if (strcmp("--positive-only", buffer) == 0) 
+    {
+        pos_only_flag = 1;
+    }
 
-  return 0;
+    const char *res_message = ((pos_only_flag) ? "only positive numbers" : "all numbers");
+    printf("%s: ", res_message);
+
+    if (!pos_only_flag) 
+    {
+        printf("%s ", buffer);
+    }
+
+    while (scanf("%255s", buffer) == 1)
+    {
+        if (pos_only_flag && buffer[0] == '-') continue;
+        
+        printf("%s ", buffer);
+    }
+    printf("\n");
+
+    return 0;
 }
-
-
 
 void error(const char* message)
 {
-  printf("stdin error: %s",message);
-  exit(1);
+    printf("stdin error: %s", message);
+    exit(1);
 }
-

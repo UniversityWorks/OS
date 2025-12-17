@@ -11,12 +11,6 @@
 #define MAX_CMD_LENGTH 256
 
 typedef struct {
-    pid_t pid;
-    pid_t ppid;
-    char command[MAX_CMD_LENGTH];
-} ProcessInfo;
-
-typedef struct {
     char name[MAX_NAME_LENGTH];
     pid_t processes[MAX_PROCESSES];
     int count;
@@ -130,13 +124,11 @@ void add_process_to_group(const char *group_name, pid_t pid) {
         return;
     }
     
-    // Перевірити чи процес існує
     if (!process_exists(pid)) {
         printf("Процес %d не існує або недоступний\n", pid);
         return;
     }
     
-    // Перевірити чи процес вже в групі
     for (int i = 0; i < groups[group_index].count; i++) {
         if (groups[group_index].processes[i] == pid) {
             printf("Процес %d вже в групі '%s'\n", pid, group_name);
@@ -256,7 +248,6 @@ int main() {
     char command[MAX_CMD_LENGTH];
     char action[50], arg1[MAX_NAME_LENGTH], arg2[50];
     
-    printf("Вітаємо в менеджері груп процесів!\n");
     printf("Введіть 'help' для отримання списку команд.\n\n");
     
     while (1) {
@@ -277,7 +268,6 @@ int main() {
         
         if (strcmp(action, "exit") == 0 || strcmp(action, "quit") == 0)
         {
-            printf("До побачення!\n");
             break;
         } 
         else if (strcmp(action, "help") == 0) 

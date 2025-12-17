@@ -45,7 +45,6 @@ int main() {
         printf("Call #%d: ", i + 1);
         once_exec(&once, demo_function, &call_numbers[i]);
     }
-    
     once_destroy(&once);
     
     
